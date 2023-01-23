@@ -15,40 +15,62 @@
           Gael Martin Solis Hernandez
         </p>
       </div>
+      
+      <div>
+				<input
+					type="text"
+					id="input"
+					placeholder="search for pokemon"
+				/>
+				<button id="search">Search</button>
+			</div>
+
+
+
+      <section class="main">
+        <div class="search_result none">
+          <div class="big-card">
+            <img src="" alt="" id="image" />
+            <h1 id="name"></h1>
+            <p id="about"></p>
+            <div class="pokemon-details">
+              <div class="height"></div>
+              <div class="order"></div>
+              <div class="weight"></div>
+              <div class="capture-rate"></div>
+            </div>
+            <div class="close">
+              <div class="cross line1"></div>
+              <div class="cross line3"></div>
+            </div>
+            <img src="" alt="" id="image" />
+            <h1 id="name"></h1>
+            <p id="about"></p>
+            <div class="pokemon-details">
+              <div class="height"></div>
+              <div class="order"></div>
+              <div class="weight"></div>
+              <div class="capture-rate"></div>
+            </div>
+            <div class="close" onclick=" remove()">
+              <div class="cross line1"></div>
+              <div class="cross line3"></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
     <div class="contenedor"><br><br>
         <div class="pokemones"></div>
     </div>
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 let valor = 150;
 let contenedor = document.querySelector(".pokemones");
 for (let index = 0; index < valor; index++) {
   let url = `https://pokeapi.co/api/v2/pokemon/${index}`;
   const pokemones = async () => {
-    var options = {
-          series: [{
-          data: [400, 430]
-        }],
-          chart: {
-          type: 'bar',
-          height: 150
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 4,
-            horizontal: true,
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        xaxis: {
-          categories: ['South Korea', 'Canada'],
-        }
-        };
     let datos = await fetch(url);
     let response = await datos.json();
     let nombre=response.name
@@ -64,18 +86,70 @@ for (let index = 0; index < valor; index++) {
     </div>
     <div class ="area-information">
       <div class="chart"></div>
-    <p clas="nombre">Nombre : ${nombre}</p>
+    <p class="nombre">Nombre : ${nombre}</p>
     <p>Tipo : ${tipo}</p>
     <p>Movimientos : ${type}</p>
-
     </div>
     </div>
      `;
     };
     pokemones();
   }
-  var chart = new ApexCharts(document.querySelector(".chart"), options);
-  chart.render();
+  // * Main api handler
+function fetch_api(i) {
+	const api = `https://pokeapi.co/api/v2/pokemon/${i}/`;
+	const promise = fetch(api);
+	return promise.then((response) => {
+		return response.json();
+	});
+}
+
+// * Input handler
+const search = document.getElementById("search");
+search.addEventListener("click", () => {
+	const input = document.getElementById("input").value;
+	let pokemon_details = fetch_api(input);
+	pokemon_details.then((data) => {
+		const search_results = document.querySelector(".search_result");
+		search_results.classList.remove("none");
+		const image = document.getElementById("image");
+		image.src = data.sprites.other.dream_world.front_default;
+		const search_results_title = document.querySelector(
+			".search_result h1"
+		);
+		search_results_title.innerText = data.name;
+		const height = document.querySelector(".height");
+		height.innerHTML = `HEIGHT: ${data.height}`;
+		const weight = document.querySelector(".weight");
+		weight.innerHTML = `WEIGHT : ${data.weight}`;
+		// * POkemon details
+		const new_url = data.species.url;
+		fetch(new_url)
+			.then((response) => response.json())
+			.then((data) => {
+				const about = document.querySelector("#about");
+				const order = document.querySelector(".order");
+
+				const capture_rate = document.querySelector(".capture-rate");
+				capture_rate.innerHTML = `CAPTURE RATE : ${data.capture_rate}`;
+				order.innerHTML = `ORDER : ${data.order}`;
+				about.innerHTML = data.flavor_text_entries[0].flavor_text;
+			});
+	});
+});
+
+// * Close search results
+function remove() {
+	const search_results = document.querySelector(".search_result");
+	search_results.classList.add("none");
+}
+
+//*  Generate pokemon cards
+generate_pokemons();
+
+
+
+
 </script>
 
 <style>
@@ -158,12 +232,13 @@ for (let index = 0; index < valor; index++) {
         display: flex;
         justify-content: start;
         align-items: center;
-        font-family: sans-serif;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         /* color: #333; */
         flex-direction: column;
       }
       .box-image{
         /* background-color: aqua; */
+        border: 2px solid #333;
         margin: 5px;
         padding: 10px;
         height: 250px;
@@ -171,6 +246,7 @@ for (let index = 0; index < valor; index++) {
         display: flex;
         justify-content: center;
         align-items: center;
+        
       }
 
       .search {
@@ -236,6 +312,129 @@ for (let index = 0; index < valor; index++) {
   color: #ffffff;
   margin-top: 10px;
 }
+
+.nombre{
+  border: #000000;
+  background-color: #20B2AA;
+}
+
+
+
+
+
+
+
+.main {
+	display: flex;
+	flex-wrap: wrap;
+}
+header {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	font-size: 3rem;
+	text-align: center;
+	margin: 2rem;
+	color: #fff;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+		1px 1px 0 #000;
+	cursor: pointer;
+}
+/* header input {
+	padding: 2rem;
+} */
+.search {
+	padding: 2rem 1rem;
+	cursor: pointer;
+}
+
+
+.search_result {
+	height: 50vh;
+	width: 50%;
+	/* margin-left: 400px;
+	margin-right: auto; */
+	background-color: #264653;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	color: #fff;
+	font-size: 2rem;
+	/* margin-right: 2rem; */
+	padding: 2rem;
+}
+.big-card {
+	margin-top: 5rem;
+	box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.45);
+	-webkit-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.45);
+	-moz-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.45);
+	max-width: 500px;
+	text-align: center;
+	background-color: #023047;
+	padding: 2rem;
+}
+.big-card img {
+	width: 20rem;
+}
+.cross {
+	height: 3px;
+	width: 30px;
+	background-color: #ede7e3;
+	margin-top: 4px;
+	position: absolute;
+	top: 2rem;
+	right: 2rem;
+	cursor: pointer;
+}
+.pokemon-details {
+	margin: 2rem;
+	width: 100%;
+	text-align: left;
+}
+.name {
+	font-size: 6rem;
+	text-transform: capitalize;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+#about {
+	font-size: 1.5rem;
+	text-shadow: none;
+	color: rgb(255, 255, 255);
+	font-family: sans-serif;
+	margin-top: 1rem;
+	text-align: center;
+}
+.pokemon-details {
+	font-size: 3rem;
+	color: rgb(255, 255, 255);
+	text-align: center;
+}
+.line1 {
+	transform: rotate(-45deg) translate(-2px, 3px);
+}
+.line2 {
+	opacity: 0;
+}
+.line3 {
+	transform: rotate(45deg) translate(1px, 3px);
+}
+.none {
+	display: none;
+}
+button {
+	background-color: #e76f51;
+	border: 1px solid #e76f51;
+	color: #023047;
+	font-weight: 600;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+/* input {
+	outline: none;
+} */
 
 
 </style>
