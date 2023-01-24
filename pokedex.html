@@ -17,10 +17,12 @@
       </div>
       
       <div>
+        <br>
 				<input
 					type="text"
 					id="input"
-					placeholder="search for pokemon"
+          class="kemono"
+					placeholder="Buscar Pokemons"
 				/>
 				<button id="search">Search</button>
 			</div>
@@ -313,18 +315,13 @@ generate_pokemons();
   margin-top: 10px;
 }
 
-.nombre{
-  border: #000000;
-  background-color: #20B2AA;
-}
 
 
 
 
 
 
-
-.main {
+/* .main {
 	display: flex;
 	flex-wrap: wrap;
 }
@@ -339,7 +336,7 @@ header {
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
 		1px 1px 0 #000;
 	cursor: pointer;
-}
+} */
 /* header input {
 	padding: 2rem;
 } */
@@ -350,10 +347,10 @@ header {
 
 
 .search_result {
-	height: 50vh;
-	width: 50%;
-	/* margin-left: 400px;
-	margin-right: auto; */
+	height: 100vh;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 	background-color: #264653;
 	position: absolute;
 	display: flex;
@@ -362,7 +359,7 @@ header {
 	flex-direction: column;
 	color: #fff;
 	font-size: 2rem;
-	/* margin-right: 2rem; */
+	margin-right: 2rem;
 	padding: 2rem;
 }
 .big-card {
@@ -425,16 +422,33 @@ header {
 	display: none;
 }
 button {
-	background-color: #e76f51;
-	border: 1px solid #e76f51;
-	color: #023047;
-	font-weight: 600;
-	letter-spacing: 2px;
-	text-transform: uppercase;
+	background: #fff;
+  border: 2px solid #008080;
+  box-shadow: 0 0 0 3px #fff;
+  cursor: pointer;
+  width: 130px;
+  border-radius: 21px;
+  padding: 4px;
+  color: #008080;
+  font-weight: bold;
+  transition: 0.6s;
 }
 /* input {
 	outline: none;
 } */
+.kemono {
+  background-color: #008080;
+  border: 1px solid #87CEEB;
+  padding: 16px;
+  border-bottom: solid 2px 008080;
+  font-size: 16px;
+  color: #fff;
+  width: 60%;
+  transition:  all 1s ease;
+  right: 0;
+  font-weight: bold;
+}
+.kemono::placeholder { color:#87CEEB; font-weight: bold; }
 
 
 </style>
