@@ -15,7 +15,7 @@
           Gael Martin Solis Hernandez
         </p>
       </div>
-      
+      <br>
       <div>
         <br>
 				<input
@@ -30,9 +30,9 @@
 
 
       <section class="main">
-        <div class="search_result none">
+        <div class="search_result none" align="center">
           <div class="big-card">
-            <img src="" alt="" id="image" />
+            <img src="" alt="" id="image" class="imagemodal"/>
             <h1 id="name"></h1>
             <p id="about"></p>
             <div class="pokemon-details">
@@ -45,10 +45,9 @@
               <div class="cross line1"></div>
               <div class="cross line3"></div>
             </div>
-            <img src="" alt="" id="image" />
             <h1 id="name"></h1>
             <p id="about"></p>
-            <div class="pokemon-details">
+            <div class="pokemon-details" class="informationpokemon">
               <div class="height"></div>
               <div class="order"></div>
               <div class="weight"></div>
@@ -97,7 +96,7 @@ for (let index = 0; index < valor; index++) {
     };
     pokemones();
   }
-  // * Main api handler
+
 function fetch_api(i) {
 	const api = `https://pokeapi.co/api/v2/pokemon/${i}/`;
 	const promise = fetch(api);
@@ -106,7 +105,7 @@ function fetch_api(i) {
 	});
 }
 
-// * Input handler
+
 const search = document.getElementById("search");
 search.addEventListener("click", () => {
 	const input = document.getElementById("input").value;
@@ -121,10 +120,10 @@ search.addEventListener("click", () => {
 		);
 		search_results_title.innerText = data.name;
 		const height = document.querySelector(".height");
-		height.innerHTML = `HEIGHT: ${data.height}`;
+		height.innerHTML = `ALTURA: ${data.height}`;
 		const weight = document.querySelector(".weight");
-		weight.innerHTML = `WEIGHT : ${data.weight}`;
-		// * POkemon details
+		weight.innerHTML = `PESO : ${data.weight}`;
+
 		const new_url = data.species.url;
 		fetch(new_url)
 			.then((response) => response.json())
@@ -133,20 +132,20 @@ search.addEventListener("click", () => {
 				const order = document.querySelector(".order");
 
 				const capture_rate = document.querySelector(".capture-rate");
-				capture_rate.innerHTML = `CAPTURE RATE : ${data.capture_rate}`;
-				order.innerHTML = `ORDER : ${data.order}`;
+				capture_rate.innerHTML = `PORCENTAJE DE CAPTURA : ${data.capture_rate}`;
+				order.innerHTML = `ID : ${data.order}`;
 				about.innerHTML = data.flavor_text_entries[0].flavor_text;
 			});
 	});
 });
 
-// * Close search results
+
 function remove() {
 	const search_results = document.querySelector(".search_result");
 	search_results.classList.add("none");
 }
 
-//*  Generate pokemon cards
+
 generate_pokemons();
 
 
@@ -251,7 +250,7 @@ generate_pokemons();
         
       }
 
-      .search {
+  .search {
   width: 100%;
   position: relative;
   display: flex;
@@ -315,53 +314,11 @@ generate_pokemons();
   margin-top: 10px;
 }
 
-
-
-
-
-
-
-/* .main {
-	display: flex;
-	flex-wrap: wrap;
-}
-header {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	font-size: 3rem;
-	text-align: center;
-	margin: 2rem;
-	color: #fff;
-	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-		1px 1px 0 #000;
-	cursor: pointer;
-} */
-/* header input {
-	padding: 2rem;
-} */
 .search {
 	padding: 2rem 1rem;
 	cursor: pointer;
 }
 
-
-.search_result {
-	height: 100vh;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #264653;
-	position: absolute;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	color: #fff;
-	font-size: 2rem;
-	margin-right: 2rem;
-	padding: 2rem;
-}
 .big-card {
 	margin-top: 5rem;
 	box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.45);
@@ -369,12 +326,13 @@ header {
 	-moz-box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.45);
 	max-width: 500px;
 	text-align: center;
-	background-color: #023047;
+	background-color: #02689b;
 	padding: 2rem;
+  
 }
 .big-card img {
 	width: 20rem;
-}
+} 
 .cross {
 	height: 3px;
 	width: 30px;
@@ -387,27 +345,9 @@ header {
 }
 .pokemon-details {
 	margin: 2rem;
-	width: 100%;
+	width: 70%;
 	text-align: left;
-}
-.name {
-	font-size: 6rem;
-	text-transform: capitalize;
-	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-		1px 1px 0 #000;
-}
-#about {
-	font-size: 1.5rem;
-	text-shadow: none;
-	color: rgb(255, 255, 255);
-	font-family: sans-serif;
-	margin-top: 1rem;
-	text-align: center;
-}
-.pokemon-details {
-	font-size: 3rem;
-	color: rgb(255, 255, 255);
-	text-align: center;
+ 
 }
 .line1 {
 	transform: rotate(-45deg) translate(-2px, 3px);
@@ -433,9 +373,7 @@ button {
   font-weight: bold;
   transition: 0.6s;
 }
-/* input {
-	outline: none;
-} */
+
 .kemono {
   background-color: #008080;
   border: 1px solid #87CEEB;
@@ -449,6 +387,14 @@ button {
   font-weight: bold;
 }
 .kemono::placeholder { color:#87CEEB; font-weight: bold; }
+
+.imagemodal{
+  height: 200px;
+	width: 100px;
+  background-color: #20B2AA;
+  background-image: url('https://www.mkgifs.com/wp-content/uploads/2022/06/pokemon-2.gif'); 
+  background-size: contain;
+}
 
 
 </style>
